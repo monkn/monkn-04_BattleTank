@@ -12,11 +12,11 @@ void ATankPlayerController::BeginPlay()
 	auto Tank = GetControlledTank();
 	if (Tank) 
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Controlled Tank: %s"), *(Tank->GetName()));
+		UE_LOG(LogTemp, Warning, TEXT("PlayerController Tank: %s"), *(Tank->GetName()));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Controlled tank is NULL"));
+		UE_LOG(LogTemp, Error, TEXT("PlayerController tank is NULL"));
 	}
 }
 
