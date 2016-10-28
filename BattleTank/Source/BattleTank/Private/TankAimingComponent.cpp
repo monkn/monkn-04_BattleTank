@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
 
 
@@ -16,33 +17,49 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
+void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
 {
-	Super::BeginPlay();
+	if (!Barrel) { return; }
 
-	// ...
+	auto MyTankName = GetOwner()->GetName();
+	
+
+	FVector OutLaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
+		GetWorld(),
+		OutLaunchVelocity,
+		StartLocation,
+		WorldSpaceAim,
+		LaunchSpeed,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
+
+	if (bHaveAimSolution)
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+
+		
+		MoveBarrelTowards(AimDirection);
+	}
+
 	
 }
 
-
-// Called every frame
-void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
-{
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
-	// ...
-}
-
-void UTankAimingComponent::AimAt(FVector WorldSpaceAim)
-{
-	auto MyTankName = GetOwner()->GetName();
-	auto BarrelLocation = Barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *MyTankName, *WorldSpaceAim.ToString(), *BarrelLocation.ToString());
-}
-
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+
 }
 
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
+	if (!Barrel) { return; }
+	// TODO add set turret reference
+
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = BarrelRotator - AimAsRotator;
+
+	Barrel->Elevate(5.0); // TODO remove magic number
+}
