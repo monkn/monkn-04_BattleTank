@@ -32,6 +32,9 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
 		StartLocation,
 		WorldSpaceAim,
 		LaunchSpeed,
+		false,
+		0,
+		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
@@ -41,6 +44,10 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
 
 		
 		MoveBarrelTowards(AimDirection);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AimSolution not found"));
 	}
 
 	
@@ -59,7 +66,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = BarrelRotator - AimAsRotator;
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
-	Barrel->Elevate(5.0); // TODO remove magic number
+	Barrel->Elevate(DeltaRotator.Pitch); // TODO remove magic number
 }

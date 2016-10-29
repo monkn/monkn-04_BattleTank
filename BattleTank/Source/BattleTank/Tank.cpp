@@ -2,8 +2,10 @@
 
 
 #include "BattleTank.h"
+#include "Public/TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "Tank.h"
+
 
 
 // Sets default values
@@ -20,6 +22,7 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }
 
