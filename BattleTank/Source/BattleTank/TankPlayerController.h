@@ -21,13 +21,13 @@ private:
 
 	ATank* GetControlledTank() const;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairYLocation = 0.33333;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 10000000.0;
 
 	// Start the tank moving the barrel so that a shot would hit where
