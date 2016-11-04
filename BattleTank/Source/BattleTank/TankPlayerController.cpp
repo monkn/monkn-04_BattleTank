@@ -2,7 +2,7 @@
 
 #include "BattleTank.h"
 #include "Tank.h"
-
+#include "TankAimingComponent.h"
 #include "TankPlayerController.h"
 
 
@@ -10,14 +10,15 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto Tank = GetControlledTank();
-	if (Tank)
+	
+
+
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+
+	if (AimingComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController Tank: %s"), *(Tank->GetName()));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("PlayerController tank is NULL"));
+		//TankAimingComponent = AimingComponent;
+		FoundAimingComponent(AimingComponent);
 	}
 }
 
@@ -74,24 +75,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 		}
 	}
 	
-	/*
-	FHitResult HitResult;
-	
-
-	DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, WorldDirection);
-	FVector EndLocation = WorldLocation + WorldDirection * MaxDistance;
-
-
-	FCollisionQueryParams RV_TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true, this);
-	RV_TraceParams.bTraceComplex = true;
-	RV_TraceParams.bTraceAsyncScene = true;
-	RV_TraceParams.bReturnPhysicalMaterial = false;
-
-	bool hit = false;
-	hit = GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation, EndLocation, ECC_Camera, RV_TraceParams);
-	*/
-
-	
 	return false;
 }
 
@@ -104,19 +87,13 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 		LookPosition,
 		LookDirection);
 
-
-	//UE_LOG(LogTemp, Warning, TEXT("Camera World Location : %s"), *CameraWorldLocation.ToString());
-
 	return ret;
 }
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector LookPosition, FVector& HitLocation) const
 {
 	FHitResult HitResult;
-	auto StartLocation = PlayerCameraManager->GetCameraLocation();
-	//auto StartLocation = LookPosition;
-
-	//UE_LOG(LogTemp, Warning, TEXT("Start Location : %s"), *StartLocation.ToString());
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();	
 	auto EndLocation = StartLocation +  LookDirection * LineTraceRange;
 
 	FCollisionQueryParams QueryParams = FCollisionQueryParams(FName(TEXT("")), true, GetOwner());
