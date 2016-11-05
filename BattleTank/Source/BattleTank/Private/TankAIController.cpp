@@ -3,7 +3,6 @@
 #include "BattleTank.h"
 
 #include "Tank.h"
-#include "TankPlayerController.h"
 #include "../Public/TankAIController.h"
 
 
@@ -21,11 +20,11 @@ void ATankAIController::Tick(float DeltaSeconds)
 	auto ControlledTank = Cast<ATank>(GetPawn());
 	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	if (PlayerTank && ControlledTank)
-	{
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-		ControlledTank->Fire(); // TODO limit firing rate
-	}
+	if (!ensure(PlayerTank && ControlledTank)) { return; }
+
+	ControlledTank->AimAt(PlayerTank->GetActorLocation());
+	ControlledTank->Fire(); // TODO limit firing rate
+
 
 	MoveToActor(PlayerTank, AcceptanceRadius);
 }

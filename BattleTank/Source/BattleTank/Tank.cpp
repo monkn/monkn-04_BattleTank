@@ -7,7 +7,6 @@
 #include "TankBarrel.h"
 #include "Tank.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
 #include "TankAimingComponent.h"
 
 
@@ -31,7 +30,7 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 
 
@@ -40,15 +39,13 @@ void ATank::AimAt(FVector HitLocation)
 
 
 void ATank::Fire()
-{/*
+{
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+
 	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 	
-	if (!Barrel)
-	{
 
-		UE_LOG(LogTemp, Warning, TEXT("No Barrel"));
-	}
-	if (Barrel && bIsReloaded && ProjectileBlueprint) {
+	if (bIsReloaded) {
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
 			Barrel->GetSocketLocation(FName("Projectile")),
@@ -58,5 +55,5 @@ void ATank::Fire()
 
 		LastFireTime = FPlatformTime::Seconds();
 	}
-	*/
+
 }

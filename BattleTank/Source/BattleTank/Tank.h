@@ -10,7 +10,6 @@ class AProjectile;
 class UTankAimingComponent;
 class UTankTurret;
 class UTankBarrel;
-class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
