@@ -19,5 +19,10 @@ public:
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-	float TrackMaxDrivingForce = 400000;
+	float TrackMaxDrivingForce = 40000000.0;
+
+	UTankTrack();
+
+	void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction);
+	
 };
