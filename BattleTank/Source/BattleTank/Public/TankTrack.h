@@ -28,6 +28,8 @@ private:
 
 	virtual void BeginPlay() override;
 
-	void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction);
-	
+	void DriveTrack();
+	void ApplySidewaysForce();
+
+	float Throttle = 0.0;
 };
