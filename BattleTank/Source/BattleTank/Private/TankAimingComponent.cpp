@@ -50,6 +50,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
 
 void UTankAimingComponent::AimAt(FVector WorldSpaceAim)
 {
@@ -118,7 +122,6 @@ void UTankAimingComponent::MoveTurretTowards(FVector AimDirectionIn)
 	{
 		DeltaRotator.Yaw = -(360 - DeltaRotator.Yaw);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator: %s"), *DeltaRotator.ToCompactString());
 	Turret->Rotate(DeltaRotator.Yaw); 
 }
 
