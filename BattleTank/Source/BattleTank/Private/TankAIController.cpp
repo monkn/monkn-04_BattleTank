@@ -27,11 +27,13 @@ void ATankAIController::Tick(float DeltaSeconds)
 	if (!ensure(PlayerTank) || !ensure(AimingComponent)) { return; }
 		
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
-	AimingComponent->Fire();
-	// TODO fix firing
-	//ControlledTank->Fire(); // TODO limit firing rate
 
-
+	UE_LOG(LogTemp, Warning, TEXT("FiringState "));
+	if (AimingComponent->FiringState == EFiringState::Locked)
+	{
+		AimingComponent->Fire();
+	}
+	
 	MoveToActor(PlayerTank, AcceptanceRadius);
 }
 

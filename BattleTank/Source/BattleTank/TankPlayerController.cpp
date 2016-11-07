@@ -52,10 +52,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	FVector LookPosition;
 	if (GetLookDirection(ScreenLocation, LookDirection, LookPosition))
 	{
-		if (GetLookVectorHitLocation(LookDirection, LookPosition, HitLocation))
-		{
-			return true;
-		}
+		return GetLookVectorHitLocation(LookDirection, LookPosition, HitLocation);
 	}
 	
 	return false;
