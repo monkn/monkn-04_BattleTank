@@ -164,4 +164,4 @@ bool UTankAimingComponent::IsBarrelMoving()
 	return !(Barrel->GetForwardVector().Equals(AimDirection, 0.01));
 }
 
-int UTankAimingComponent::GetRoundsLeft() const { return RoundsLeft; }
+int32 UTankAimingComponent::GetRoundsLeft() const { return RoundsLeft; }

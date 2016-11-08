@@ -34,7 +34,7 @@ public:
 	void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetRoundsLeft() const;
+	int32 GetRoundsLeft() const;
 
 	EFiringState GetFiringState() const;
 	void AimAt(FVector WorldSpaceAim);
@@ -44,13 +44,14 @@ protected:
 	EFiringState FiringState = EFiringState::Reloading;
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
-	int MaxAmmo = 3;
+	int32 MaxAmmo = 3;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000.0;
 
-	int RoundsLeft = 3;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 RoundsLeft = 3;
 
 	// Sets default values for this component's properties
 	UTankAimingComponent();
