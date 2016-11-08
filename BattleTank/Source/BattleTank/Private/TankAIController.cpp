@@ -32,7 +32,6 @@ void ATankAIController::Tick(float DeltaSeconds)
 	{
 		AimingComponent->Fire();
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AcceptanceRadius: %f"), AcceptanceRadius);
 	
 	MoveToActor(PlayerTank, AcceptanceRadius);
 }
