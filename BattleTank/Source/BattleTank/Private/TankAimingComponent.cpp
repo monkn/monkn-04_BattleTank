@@ -66,7 +66,8 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim)
 	
 
 	auto MyTankName = GetOwner()->GetName();
-	
+
+	UE_LOG(LogTemp, Warning, TEXT("%s AimAt"), *MyTankName)
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -122,11 +123,15 @@ void UTankAimingComponent::MoveTurretTowards(FVector AimDirectionIn)
 	auto AimAsRotator = AimDirectionIn.Rotation();
 	auto DeltaRotator = AimAsRotator - TurretRotator;
 
-	if (DeltaRotator.Yaw > 180)
+	if (FMath::Abs(DeltaRotator.Yaw) < 180)
 	{
-		DeltaRotator.Yaw = -(360 - DeltaRotator.Yaw);
+		Turret->Rotate(DeltaRotator.Yaw);
 	}
-	Turret->Rotate(DeltaRotator.Yaw); 
+	else
+	{
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}
+
 }
 
 
