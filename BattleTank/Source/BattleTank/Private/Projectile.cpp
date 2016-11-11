@@ -35,20 +35,24 @@ AProjectile::AProjectile()
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (ensure(LaunchBlast))
-	{
+
 		LaunchBlast->Deactivate();
-	}
-	if (ensure(ImpactBlast))
-	{
 		ImpactBlast->Activate();
-	}
-	if (ensure(ExplosionForce))
-	{
 		ExplosionForce->FireImpulse();
-	}
+
+		SetRootComponent(ImpactBlast);
+		CollisionMesh->DestroyComponent();
+
+		FTimerHandle TimerHandle;
+
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectile::OnDestroy, DestroyDelay);
+	
 }
 
+void AProjectile::OnDestroy()
+{
+	Destroy();
+}
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
