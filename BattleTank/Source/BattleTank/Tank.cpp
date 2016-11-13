@@ -10,5 +10,19 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+}
 
+float ATank::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	int32 DamagePoints = FPlatformMath::RoundToInt(Damage);
+	auto DamageToApply = FMath::Clamp<float>(DamagePoints, 0, CurrentHealth);
+	CurrentHealth -= DamageToApply;
+	return DamageToApply;
+}
+
+float ATank::GetHealthPercent() const
+{
+	auto hp = (float)CurrentHealth / (float)StartingHealth;
+		UE_LOG(LogTemp, Warning, TEXT("Health Percentage %f"), hp);
+	return (float)CurrentHealth / (float)StartingHealth;
 }

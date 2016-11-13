@@ -63,13 +63,7 @@ EFiringState UTankAimingComponent::GetFiringState() const
 void UTankAimingComponent::AimAt(FVector WorldSpaceAim)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
-
 	
-
-	auto MyTankName = GetOwner()->GetName();
-
-	UE_LOG(LogTemp, Warning, TEXT("%s AimAt"), *MyTankName)
-
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
