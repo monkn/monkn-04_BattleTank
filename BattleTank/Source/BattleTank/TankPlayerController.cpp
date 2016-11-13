@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
 #include "TankPlayerController.h"
+#include "Tank.h"
 
 
 void ATankPlayerController::BeginPlay()
@@ -15,6 +16,18 @@ void ATankPlayerController::BeginPlay()
 		FoundAimingComponent(AimingComponent);
 	}
 }
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn) {
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+	}
+}
+
 
 void ATankPlayerController::Tick(float DeltaSeconds)
 {
@@ -91,4 +104,9 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	
 	HitLocation = FVector(0);
 	return false;
+}
+
+void ATankPlayerController::OnPossessedTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Player Tank Dead!!"));
 }

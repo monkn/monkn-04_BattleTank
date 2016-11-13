@@ -14,12 +14,16 @@ UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+public:
+	UFUNCTION()
+		void OnPossessedTankDeath();
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimingComponent);
 
 private:
 	virtual void BeginPlay() override;
+	virtual void SetPawn(APawn* InPawn) override;
 	virtual void Tick(float) override;	
 	
 	UPROPERTY(EditDefaultsOnly)

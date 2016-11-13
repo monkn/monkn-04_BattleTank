@@ -17,12 +17,15 @@ float ATank::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AC
 	int32 DamagePoints = FPlatformMath::RoundToInt(Damage);
 	auto DamageToApply = FMath::Clamp<float>(DamagePoints, 0, CurrentHealth);
 	CurrentHealth -= DamageToApply;
+
+	if (CurrentHealth <= 0) {
+		OnDeath.Broadcast();
+	}
+
 	return DamageToApply;
 }
 
 float ATank::GetHealthPercent() const
 {
-	auto hp = (float)CurrentHealth / (float)StartingHealth;
-		UE_LOG(LogTemp, Warning, TEXT("Health Percentage %f"), hp);
 	return (float)CurrentHealth / (float)StartingHealth;
 }
