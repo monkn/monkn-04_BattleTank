@@ -94,7 +94,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 		HitResult,
 		StartLocation,
 		EndLocation,
-		ECollisionChannel::ECC_Visibility,
+		ECollisionChannel::ECC_Camera,
 		QueryParams
 		))
 	{
@@ -108,5 +108,5 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 
 void ATankPlayerController::OnPossessedTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Player Tank Dead!!"));
+	StartSpectatingOnly();
 }
